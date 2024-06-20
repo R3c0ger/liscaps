@@ -1,0 +1,10 @@
+numpy
+scipy
+pandas
+matplotlib
+tensorboard
+torch
+visdom
+scikit-learn
+streamlit
+requests
