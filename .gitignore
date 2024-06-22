@@ -99,10 +99,11 @@ ENV/
 *.pdf
 *.zip
 *.rar
+*.ipynb
 
 # results
-/checkpoint
-/log
+checkpoint/
+log/
 *.swp
 category_data/
 daily_kline/

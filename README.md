@@ -1,6 +1,6 @@
 # LISCAPS: LSTM-based Intelligent Stock Crawl, Analysis and Prediction System
 
-## Liscaps：基于 LSTM 的智能股票爬取分析与预测系统
+## LISCAPS：基于 LSTM 的智能股票爬取分析与预测系统
 
 ## Usage
 
