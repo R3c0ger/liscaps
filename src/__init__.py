@@ -5,7 +5,7 @@ from crawlers import (
     crawl_stock_dailyk,
     crawl_all_categories,
 )
-from run import run_train_predict
+from run_train_predict import run_train_predict
 from prediction import (
     Config,
     Data,
