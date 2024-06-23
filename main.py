@@ -11,5 +11,5 @@ VERSION = "0.1.0"
 
 
 if __name__ == "__main__":
-    subprocess.run(["streamlit", "run", r".\ui\Home_page.py"])
+    subprocess.run(["streamlit", "run", r".\ui\home_page.py"])
     sys.exit(0)
