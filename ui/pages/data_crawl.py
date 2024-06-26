@@ -90,11 +90,11 @@ stock_exchange = stock_exchange.selectbox(
     format_func=lambda x: {'1': "沪市", '0': "深市/北证"}[x]
 )
 fq = fq.selectbox(
-    "选择复权类型", options=[1, 2],
-    format_func=lambda x: {1: "前复权", 2: "后复权"}[x]
+    "选择复权类型", options=["1", "2"],
+    format_func=lambda x: {"1": "前复权", "2": "后复权"}[x]
 )
 start_date, end_date, _ = st.columns(3)
-start_date = start_date.date_input("开始日期", value=datetime(2018, 1, 1))
+start_date = start_date.date_input("开始日期", value=datetime(1900, 1, 1))
 end_date = end_date.date_input("结束日期", value=datetime.now())
 crawl_stock_button = st.button("爬取指定股票日K数据")
 

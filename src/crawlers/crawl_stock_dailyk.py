@@ -10,16 +10,16 @@ import requests
 def crawl_stock_dailyk(
         stock_code,
         stock_exchange='1',
-        start_date='20180101',
+        start_date='19900101',
         end_date=None,
-        fq=1,
+        fq="1",
         other_info=None,
         logger=None,
 ):
     """爬取指定股票日K数据
     :param stock_code: 股票代码
     :param stock_exchange: 交易所代码，1为沪市，0为深市和北证，默认为1
-    :param start_date: 开始日期，字符串格式，默认为'20180101'
+    :param start_date: 开始日期，字符串格式，默认为'19900101'
     :param end_date: 结束日期，字符串格式，默认为当前日期
     :param fq: 复权类型，1为前复权，2为后复权，默认为1
     :param other_info: 其他信息，行业、地域、概念，如提供则会保存到csv文件中
@@ -54,7 +54,12 @@ def crawl_stock_dailyk(
 
     # 解析数据
     data = data['data']
-    klines = data['klines']
+    try:
+        klines = data['klines']
+    except TypeError:
+        logger.error(f"Failed to fetch data for stock {stock_code}. "
+                     f"Please check your input or choices.")
+        return None
     klines = [line.split(',') for line in klines]
     df = pd.DataFrame(klines, columns=columns[2:])
     df['股票代码'] = stock_code
