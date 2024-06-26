@@ -42,6 +42,8 @@ sidebar_content = """
 """
 st.sidebar.markdown(sidebar_content, unsafe_allow_html=True)
 
+
+# 页面内容
 st.title("数据爬取", anchor="crawlers")
 
 st.subheader("爬取沪深京所有板块", anchor="all_categories")
@@ -59,18 +61,17 @@ sort_key = sort_key.selectbox(
     "选择排序关键字", options=[2, 3, 4, 8, 20],
     format_func=lambda x: {2: "最新价", 3: "涨跌幅", 4: "涨跌额", 8: "换手率", 20: "总市值"}[x]
 )
-
-crawl_category_button = st.button("爬取沪深京所有板块")
+crawl_category_button = st.button("**爬取沪深京所有板块**", use_container_width=True)
 
 if crawl_category_button:
-    df_expander = st.expander(expanded=True, label=f"#### 沪深京所有{type_dict[category_type]}板块")
-    df_placeholder = df_expander.empty()
+    crawl_category_df_expander = st.expander(expanded=True, label=f"#### 沪深京所有{type_dict[category_type]}板块")
+    crawl_category_df_placeholder = crawl_category_df_expander.empty()
     df = crawl_all_categories(
         category_type=category_type,
         sort_order=sort_order,
         sort_key=sort_key
     )
-    df_placeholder.write(df)
+    crawl_category_df_placeholder.write(df)
 
     # 保存为csv文件
     save_dir = f"data/crawl_rst/category_data/"
@@ -78,6 +79,7 @@ if crawl_category_button:
     if not os.path.exists(save_dir) and not os.path.isdir(save_dir):
         os.makedirs(save_dir)
     df.to_csv(save_path, index=False)
+
 
 st.subheader("爬取指定板块所有股票日K数据", anchor="all_data")
 
@@ -96,14 +98,14 @@ fq = fq.selectbox(
 start_date, end_date, _ = st.columns(3)
 start_date = start_date.date_input("开始日期", value=datetime(1900, 1, 1))
 end_date = end_date.date_input("结束日期", value=datetime.now())
-crawl_stock_button = st.button("爬取指定股票日K数据")
+crawl_stock_dailyk_button = st.button("**爬取指定股票日K数据**", use_container_width=True)
 
-if crawl_stock_button:
-    df_expander = st.expander(expanded=True, label=f"#### 股票代码: {stock_code} 的日K数据")
-    df_placeholder = df_expander.empty()
+if crawl_stock_dailyk_button:
+    stock_dailyk_expander = st.expander(expanded=True, label=f"#### 股票代码: {stock_code} 的日K数据")
+    stock_dailyk_df_placeholder = stock_dailyk_expander.empty()
 
     # 设置日志
-    stock_log_placeholder = df_expander.empty()
+    stock_log_placeholder = stock_dailyk_expander.empty()
     logger = load_logger_st(stock_log_placeholder)
 
     # 爬取指定股票日K数据
@@ -115,7 +117,10 @@ if crawl_stock_button:
         fq=fq,
         logger=logger
     )
-    df_placeholder.write(df_stock)
+    if df_stock is not None:
+        stock_dailyk_df_placeholder.write(df_stock)
+    else:
+        stock_dailyk_df_placeholder.write("没有爬取到任何数据，或数据爬取失败。")
 
     # 保存为csv文件
     save_dir = f"data/crawl_rst/daily_kline/"
