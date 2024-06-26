@@ -83,17 +83,19 @@ st.subheader("爬取指定板块所有股票日K数据", anchor="all_data")
 
 
 st.subheader("爬取指定股票日K数据", anchor="one_data")
-stock_code = st.text_input("输入股票代码", value="000001")
-stock_exchange = st.selectbox(
+stock_code, stock_exchange, fq = st.columns(3)
+stock_code = stock_code.text_input("输入股票代码", value="000001")
+stock_exchange = stock_exchange.selectbox(
     "选择交易所", options=['0', '1'],
     format_func=lambda x: {'1': "沪市", '0': "深市/北证"}[x]
 )
-start_date = st.date_input("开始日期", value=datetime(2018, 1, 1))
-end_date = st.date_input("结束日期", value=datetime.now())
-fq = st.selectbox(
+fq = fq.selectbox(
     "选择复权类型", options=[1, 2],
     format_func=lambda x: {1: "前复权", 2: "后复权"}[x]
 )
+start_date, end_date, _ = st.columns(3)
+start_date = start_date.date_input("开始日期", value=datetime(2018, 1, 1))
+end_date = end_date.date_input("结束日期", value=datetime.now())
 crawl_stock_button = st.button("爬取指定股票日K数据")
 
 if crawl_stock_button:
