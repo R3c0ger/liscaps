@@ -107,6 +107,7 @@ log/
 *.swp
 category_data/
 daily_kline/
+kline_data/
 
 # course reports
 报告/
