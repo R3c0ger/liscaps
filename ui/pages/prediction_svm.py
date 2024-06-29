@@ -26,7 +26,7 @@ if run_svm_button:
     # 设置日志和图片显示区域
     log_expander = st.expander(expanded=True, label="SVM训练日志")
     log_placeholder = log_expander.empty()
-    image_placeholder = st.empty()
+    image_placeholder_low, image_placeholder_high = st.columns(2)
     logger = load_logger_st(log_placeholder)
 
     conf = Config(do_train, do_predict, batch_size, epoch)  # 初始化配置
@@ -39,6 +39,6 @@ if run_svm_button:
         image_path_low = os.path.join(figure_save_path, f"predict_low.png")
         image_path_high = os.path.join(figure_save_path, f"predict_high.png")
         if os.path.exists(image_path_low):
-            image_placeholder.image(image_path_low, caption="预测低价")
+            image_placeholder_low.image(image_path_low, caption="预测低价")
         if os.path.exists(image_path_high):
-            image_placeholder.image(image_path_high, caption="预测高价")
+            image_placeholder_high.image(image_path_high, caption="预测高价")
