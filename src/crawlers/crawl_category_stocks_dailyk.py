@@ -6,7 +6,7 @@ import requests
 from src.crawlers.crawl_stock_dailyk import crawl_stock_dailyk
 
 
-def fetch_category_stocks(category, crawl_all=False):
+def crawl_category_stocks(category, crawl_all=False):
     """
     获取指定行业/概念/地域板块内所有股票的代码。
     :param category: 行业/概念/地域板块代码，如'0447'（互联网服务）、'0918'（特高压）
@@ -23,7 +23,6 @@ def fetch_category_stocks(category, crawl_all=False):
     response = requests.get(url)
     response.raise_for_status()
     data = response.json()
-    # pprint(data)
 
     stocks = data['data']['diff']
     stocks_all_info = [list(stock.values()) for stock in stocks]
@@ -38,15 +37,18 @@ def fetch_category_stocks(category, crawl_all=False):
     stock_exchanges = [stock[1] for stock in stocks_all_info]  # 交易所
     stock_info = [[stock[3], stock[4], stock[5]] for stock in stocks_all_info]  # 行业、地域、概念
     len_stock_codes = len(stock_codes)
+
     for i in range(len_stock_codes):
         print(f"[{i + 1}/{len_stock_codes}]", end=" ")
         crawl_stock_dailyk(
-            stock_codes[i], stock_exchange=stock_exchanges[i], other_info=stock_info[i],
+            stock_codes[i],
+            stock_exchange=stock_exchanges[i],
+            other_info=stock_info[i],
         )
     folder_name = f"kline_data/BK{category}_kline_data"
     return stock_codes
 
 
 if __name__ == '__main__':
-    Industry = "0447"  # 互联网服务
-    fetch_category_stocks(Industry, crawl_all=True)
+    industry = "0447"  # 互联网服务
+    crawl_category_stocks(industry, crawl_all=True)

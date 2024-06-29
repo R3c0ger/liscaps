@@ -44,6 +44,11 @@ class Config:
             self.batch_size = 1
             self.continue_flag = "continue_"
 
+        # SVM相关参数
+        self.svm_C = 1e3
+        self.svm_gamma = 0.1
+        self.model_name = "svm_model.pkl"
+
         # 训练模式
         self.debug_mode = False
         self.debug_num = 500  # 调试数据条数
@@ -66,7 +71,8 @@ class Config:
         if self.do_log_save_to_file or self.do_train_visualized:
             cur_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
             self.log_save_path = f"{self.log_save_path}{cur_time}/"
-            os.makedirs(self.log_save_path)
+            if not os.path.exists(self.log_save_path):
+                os.makedirs(self.log_save_path)
 
     def __str__(self):
         config_dict = {}

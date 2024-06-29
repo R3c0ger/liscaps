@@ -4,6 +4,7 @@
 from src.prediction.config import Config
 from src.prediction.data_processor import Data
 from src.prediction.model import train, predict
+from src.prediction.svm import train_svm, predict_svm
 from src.prediction.visualizer import display_prediction
 
 __all__ = [
@@ -11,5 +12,7 @@ __all__ = [
     'Data',
     'train',
     'predict',
+    'train_svm',
+    'predict_svm',
     'display_prediction',
 ]

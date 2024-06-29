@@ -6,7 +6,7 @@ import time
 
 import streamlit as st
 
-from src import run_train_predict, load_logger_st, Config
+from src import run_train_predict, run_train_predict_svm, load_logger_st, Config
 
 
 st.set_page_config(layout="wide")
@@ -42,3 +42,26 @@ if run_button:
             image_placeholder_low.image(image_path_low, caption="预测低价")
         if os.path.exists(image_path_high):
             image_placeholder_high.image(image_path_high, caption="预测高价")
+
+run_svm_button = st.button("运行SVM训练和预测")
+
+if run_svm_button:
+    # 设置日志和图片显示区域
+    log_expander = st.expander(expanded=True, label="SVM训练日志")
+    log_placeholder = log_expander.empty()
+    image_placeholder = st.empty()
+    logger = load_logger_st(log_placeholder)
+
+    conf = Config(do_train, do_predict, batch_size, epoch)  # 初始化配置
+    run_train_predict_svm(conf)  # 运行训练和预测
+
+    # 展示预测图片
+    if do_predict:
+        time.sleep(0.5)
+        figure_save_path = conf.figure_save_path
+        image_path_low = os.path.join(figure_save_path, f"predict_low.png")
+        image_path_high = os.path.join(figure_save_path, f"predict_high.png")
+        if os.path.exists(image_path_low):
+            image_placeholder.image(image_path_low, caption="预测低价")
+        if os.path.exists(image_path_high):
+            image_placeholder.image(image_path_high, caption="预测高价")

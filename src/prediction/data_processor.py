@@ -40,7 +40,7 @@ class Data:
         label_data = self.norm_data[
                         self.config.predict_day: self.config.predict_day + self.train_num,
                         self.config.label_in_feature_index
-                     ]
+                     ][:len(feature_data)]  # 确保长度一致
 
         if not self.config.do_continue_train:
             # 在非连续训练模式下，每time_step行数据会作为一个样本，两个样本错开一行，比如：1-20行，2-21行。。。。
