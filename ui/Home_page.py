@@ -14,6 +14,7 @@ show_pages(
         Page("ui/home_page.py", "Home", ":house_with_garden:"),
         Page("ui/pages/data_crawl.py", "Data_Crawl", ":mag:"),
         Page("ui/pages/prediction.py", "Prediction", ":chart_with_upwards_trend:"),
+        Page("ui/pages/prediction_svm.py", "Prediction_With_SVM", ":chart_with_upwards_trend:"),
     ]
 )
 
