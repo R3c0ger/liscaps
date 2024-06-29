@@ -34,8 +34,6 @@ def crawl_stock_dailyk(
         '股票代码', '股票名称', '日期', '开盘价', '收盘价', '最高价', '最低价',
         '成交量', '成交额', '振幅(%)', '涨跌幅(%)', '涨跌额', '换手率(%)',
     ]
-    if other_info is not None:
-        columns += ['行业', '地域', '概念', ]
 
     # 请求API获取部分数据
     base_url = "https://push2his.eastmoney.com/api/qt/stock/kline/get?"
@@ -61,14 +59,12 @@ def crawl_stock_dailyk(
                      f"Please check your input or choices.")
         return None
     klines = [line.split(',') for line in klines]
+
     df = pd.DataFrame(klines, columns=columns[2:])
     df['股票代码'] = stock_code
     df['股票名称'] = data['name']
     df = df[['股票代码', '股票名称'] + columns[2:]]
-    if other_info is not None:
-        df['行业'] = other_info['行业']
-        df['地域'] = other_info['地域']
-        df['概念'] = other_info['概念']
+    df = df.assign(行业=other_info[0], 地域=other_info[1], 概念=other_info[2])
 
     return df
 

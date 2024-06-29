@@ -4,6 +4,7 @@
 from crawlers import (
     crawl_stock_dailyk,
     crawl_all_categories,
+    crawl_category_stocks,
 )
 from run_train_predict import run_train_predict, run_train_predict_svm
 from prediction import (
@@ -23,6 +24,7 @@ from utils import (
 __all__ = [
     'crawl_stock_dailyk',
     'crawl_all_categories',
+    'crawl_category_stocks',
     'run_train_predict',
     'run_train_predict_svm',
     'Config',

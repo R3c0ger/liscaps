@@ -6,7 +6,12 @@ from datetime import datetime
 
 import streamlit as st
 
-from src import load_logger_st, crawl_all_categories, crawl_stock_dailyk
+from src import (
+    load_logger_st,
+    crawl_all_categories,
+    crawl_stock_dailyk,
+)
+from src.crawlers.crawl_category_stocks_dailyk import crawl_category_stocks
 
 
 st.set_page_config(layout="wide")
@@ -82,6 +87,30 @@ if crawl_category_button:
 
 
 st.subheader("爬取指定板块所有股票日K数据", anchor="all_data")
+
+category_code, crawl_all_stocks = st.columns(2)
+category_code = category_code.text_input("输入板块代码", value="0420")
+crawl_all_stocks = crawl_all_stocks.checkbox("是否爬取所有股票", value=False)
+crawl_category_stocks_button = st.button("**爬取指定板块所有股票日K数据**", use_container_width=True)
+
+if crawl_category_stocks_button:
+    category_stocks_expander = st.expander(expanded=True, label=f"#### 板块代码: {category_code} 的所有股票日K数据")
+    category_stocks_df_placeholder = category_stocks_expander.empty()
+
+    # 设置日志
+    category_log_placeholder = category_stocks_expander.empty()
+    logger = load_logger_st(category_log_placeholder)
+
+    # 爬取指定板块所有股票日K数据
+    df_category = crawl_category_stocks(
+        category_code=category_code,
+        crawl_all=crawl_all_stocks,
+        logger=logger
+    )
+    if df_category is not None:
+        category_stocks_df_placeholder.write(df_category)
+    else:
+        category_stocks_df_placeholder.write("没有爬取到任何数据，或数据爬取失败。")
 
 
 st.subheader("爬取指定股票日K数据", anchor="one_data")
