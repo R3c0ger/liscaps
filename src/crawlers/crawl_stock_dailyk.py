@@ -64,7 +64,8 @@ def crawl_stock_dailyk(
     df['股票代码'] = stock_code
     df['股票名称'] = data['name']
     df = df[['股票代码', '股票名称'] + columns[2:]]
-    df = df.assign(行业=other_info[0], 地域=other_info[1], 概念=other_info[2])
+    if other_info:
+        df = df.assign(行业=other_info[0], 地域=other_info[1], 概念=other_info[2])
 
     return df
 
